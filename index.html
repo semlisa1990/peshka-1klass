@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пешка — Кондитерская</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #f7f7f4;
+    --olive: #6b7c4a;
+    --olive-light: #8a9e5f;
+    --olive-dark: #4a5933;
+    --olive-bg: #f0f2ea;
+    --text: #1e1e1e;
+    --muted: #7a7a6e;
+    --border: rgba(107,124,74,0.15);
+    --accent: #c8a96e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 56px; height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+
+  .peshka-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .nav-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 700; color: var(--olive-dark);
+    letter-spacing: 0.04em;
+  }
+
+  .nav-links { display: flex; gap: 32px; list-style: none; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--olive); }
+  .nav-cta { background: var(--olive) !important; color: white !important; padding: 10px 22px; border-radius: 6px; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--olive-dark) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; padding: 68px 56px 0;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 60px;
+    background: var(--bg);
+  }
+
+  .hero-content { padding: 60px 0; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--olive-bg); border: 1px solid var(--border);
+    color: var(--olive); font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 28px; animation: fadeUp 0.7s ease both;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 5.5vw, 76px); font-weight: 900; line-height: 1.05;
+    color: var(--text); margin-bottom: 12px;
+    animation: fadeUp 0.7s 0.1s ease both;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--olive); }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 18px; color: var(--muted); margin-bottom: 20px;
+    animation: fadeUp 0.7s 0.15s ease both;
+  }
+
+  .hero-desc {
+    font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 420px;
+    margin-bottom: 36px; animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-btns { display: flex; gap: 14px; animation: fadeUp 0.7s 0.3s ease both; }
+
+  .btn-primary {
+    background: var(--olive); color: white; text-decoration: none;
+    padding: 14px 30px; border-radius: 8px; font-size: 14px; font-weight: 500;
+    transition: all 0.3s; box-shadow: 0 4px 20px rgba(107,124,74,0.3);
+  }
+  .btn-primary:hover { background: var(--olive-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(107,124,74,0.4); }
+
+  .btn-secondary {
+    background: transparent; color: var(--olive); text-decoration: none;
+    padding: 14px 30px; border-radius: 8px; font-size: 14px; font-weight: 500;
+    border: 1.5px solid var(--olive); transition: all 0.3s;
+  }
+  .btn-secondary:hover { background: var(--olive-bg); transform: translateY(-2px); }
+
+  .hero-badges {
+    display: flex; gap: 12px; margin-top: 36px; flex-wrap: wrap;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .hero-badge-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--muted);
+  }
+
+  .hero-badge-item span:first-child { font-size: 16px; }
+
+  /* HERO VISUAL */
+  .hero-visual { position: relative; height: 560px; animation: fadeUp 0.9s 0.2s ease both; }
+
+  .hero-cake-main {
+    width: 100%; height: 460px;
+    background: var(--olive-bg);
+    border-radius: 24px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-cake-main::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 60% 40%, rgba(107,124,74,0.08) 0%, transparent 60%);
+  }
+
+  .cake-emoji { font-size: 100px; line-height: 1; }
+  .cake-label {
+    font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic;
+    color: var(--olive-dark); opacity: 0.6;
+  }
+
+  .floating-card {
+    position: absolute; background: white;
+    border-radius: 14px; padding: 14px 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .floating-card.card1 { bottom: 60px; left: -20px; }
+  .floating-card.card2 { top: 40px; right: -10px; }
+
+  .float-icon { font-size: 24px; }
+  .float-top { font-size: 13px; font-weight: 600; color: var(--text); }
+  .float-bot { font-size: 11px; color: var(--muted); }
+
+  /* PROMO BANNER */
+  .promo-banner {
+    background: var(--olive); color: white;
+    padding: 20px 56px;
+    display: flex; justify-content: center; gap: 60px; flex-wrap: wrap;
+  }
+
+  .promo-item { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+  .promo-item span:first-child { font-size: 22px; }
+  .promo-item strong { font-weight: 600; }
+
+  /* SECTION BASE */
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  section { padding: 100px 56px; }
+
+  .section-tag { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--olive); margin-bottom: 14px; font-weight: 500; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(30px, 3.5vw, 46px); font-weight: 700; color: var(--text); line-height: 1.15; margin-bottom: 14px; }
+  .section-desc { font-size: 15px; color: var(--muted); line-height: 1.75; max-width: 540px; }
+
+  /* MENU */
+  .menu-section { background: var(--surface); }
+
+  .menu-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; margin-top: 40px;
+  }
+
+  .tab-btn {
+    background: white; border: 1.5px solid var(--border);
+    color: var(--muted); font-family: 'Outfit', sans-serif;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 8px 18px; border-radius: 6px;
+    cursor: pointer; transition: all 0.25s;
+  }
+
+  .tab-btn.active, .tab-btn:hover {
+    background: var(--olive); border-color: var(--olive); color: white;
+  }
+
+  .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+  .menu-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; transition: all 0.3s;
+  }
+
+  .menu-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+
+  .menu-card-img {
+    height: 160px; background: var(--olive-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 60px; position: relative;
+  }
+
+  .menu-card-img .giant-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: var(--olive); color: white;
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 4px; font-weight: 600;
+  }
+
+  .menu-card-body { padding: 20px; }
+  .menu-card-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+  .menu-card-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+  .menu-card-footer { display: flex; justify-content: space-between; align-items: center; }
+  .menu-card-price { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--olive); }
+  .menu-card-price span { font-size: 13px; font-weight: 400; }
+
+  .order-btn {
+    background: var(--olive-bg); color: var(--olive);
+    border: none; padding: 8px 14px; border-radius: 6px;
+    font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .order-btn:hover { background: var(--olive); color: white; }
+
+  /* SPECIALS */
+  .specials-section { background: var(--olive-dark); color: white; }
+
+  .specials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+
+  .special-card {
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 32px 28px; text-align: center; transition: all 0.3s;
+  }
+  .special-card:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); }
+
+  .special-icon { font-size: 44px; margin-bottom: 16px; display: block; }
+  .special-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+  .special-desc { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; }
+  .special-highlight { color: var(--accent); font-weight: 600; font-size: 15px; margin-top: 10px; display: block; }
+
+  /* ABOUT */
+  .about-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+
+  .about-image {
+    height: 420px; background: var(--olive-bg);
+    border-radius: 20px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 12px;
+    font-size: 80px; position: relative; overflow: hidden;
+  }
+
+  .about-image p { font-size: 13px; color: var(--muted); }
+
+  .about-story { margin-top: 28px; }
+  .about-story p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+
+  .about-quote {
+    border-left: 3px solid var(--olive); padding-left: 20px; margin: 24px 0;
+  }
+  .about-quote p {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 18px; color: var(--olive-dark); margin: 0;
+  }
+
+  .team-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+  .team-chip {
+    background: var(--olive-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .chip-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--olive); color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 13px;
+  }
+  .chip-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .chip-role { font-size: 11px; color: var(--muted); }
+
+  /* ORDER */
+  .order-section { background: var(--surface); }
+  .order-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+
+  .delivery-options { margin-top: 36px; display: flex; flex-direction: column; gap: 16px; }
+
+  .delivery-card {
+    background: white; border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 20px 24px;
+    display: flex; align-items: center; gap: 16px; transition: all 0.3s;
+  }
+  .delivery-card:hover { border-color: var(--olive); transform: translateX(4px); }
+  .delivery-icon { font-size: 28px; }
+  .delivery-name { font-size: 15px; font-weight: 500; color: var(--text); }
+  .delivery-desc { font-size: 12px; color: var(--muted); }
+
+  .contact-box {
+    background: white; border: 1px solid var(--border);
+    border-radius: 20px; padding: 36px;
+  }
+  .contact-box h3 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; margin-bottom: 24px; color: var(--text); }
+
+  .contact-row { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .contact-row-icon { width: 40px; height: 40px; background: var(--olive-bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .contact-row-text { font-size: 14px; color: var(--text); }
+  .contact-row-sub { font-size: 12px; color: var(--muted); }
+
+  /* FOOTER */
+  footer {
+    background: var(--olive-dark); color: white;
+    padding: 40px 56px; display: flex;
+    justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; }
+  footer p { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 72px 24px; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    .menu-grid { grid-template-columns: 1fr 1fr; }
+    .specials-grid { grid-template-columns: 1fr; }
+    .about-inner, .order-inner { grid-template-columns: 1fr; gap: 40px; }
+    .promo-banner { padding: 20px 24px; gap: 24px; }
+    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="peshka-icon">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="8" r="5" fill="#6b7c4a"/>
+        <rect x="13" y="13" width="10" height="6" rx="2" fill="#6b7c4a"/>
+        <path d="M10 19 L8 28 H28 L26 19 Z" fill="#6b7c4a"/>
+        <rect x="7" y="28" width="22" height="4" rx="2" fill="#6b7c4a"/>
+      </svg>
+    </div>
+    <div class="nav-logo-text">Пешка</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#menu">Меню</a></li>
+    <li><a href="#specials">Акции</a></li>
+    <li><a href="#about">О нас</a></li>
+    <li><a href="#order" class="nav-cta">Заказать</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">🎂 Кондитерская · Батуми</div>
+    <h1><em>Пешка</em> — сладкий ход</h1>
+    <div class="hero-sub">Торты, пирожные и все вкусное</div>
+    <p class="hero-desc">Мы делаем гигантские торты и пирожные, которые удивляют. Доставим прямо домой - через наш сайт, Яндекс или Glovo.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn-primary">Смотреть меню</a>
+      <a href="#order" class="btn-secondary">Как заказать</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge-item"><span>🏆</span><span>Гигантские торты</span></div>
+      <div class="hero-badge-item"><span>🚀</span><span>Быстрая доставка</span></div>
+      <div class="hero-badge-item"><span>🎉</span><span>Скидка на день рождения</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-cake-main">
+      <img src="media/bigcake.png" alt="Гигантский торт" style="width: 100%; height: 100%; object-fit: contain;">
+      <div class="cake-emoji"></div>
+      <div class="cake-label">Фото главного торта</div>
+    </div>
+    <div class="floating-card card1">
+      <div class="float-icon">🎁</div>
+      <div>
+        <div class="float-top">Акция 2+1</div>
+        <div class="float-bot">На все торты</div>
+      </div>
+    </div>
+    <div class="floating-card card2">
+      <div class="float-icon">⭐</div>
+      <div>
+        <div class="float-top">Хит продаж</div>
+        <div class="float-bot">Гигантский торт</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROMO BANNER -->
+<div class="promo-banner">
+  <div class="promo-item"><span>🎂</span><div><strong>Акция 2+1</strong> на все торты</div></div>
+  <div class="promo-item"><span>☀️</span><div><strong>-30%</strong> каждое воскресенье</div></div>
+  <div class="promo-item"><span>🎉</span><div><strong>-50%</strong> в день рождения</div></div>
+</div>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="section-inner">
+    <div class="section-tag">Меню</div>
+    <h2 class="section-title">Все самое вкусное</h2>
+    <p class="section-desc">Наша фишка - гигантские торты и пирожные. Но у нас есть и многое другое.</p>
+
+    <div class="menu-tabs">
+      <button class="tab-btn active">Все меню</button>
+      <button class="tab-btn">Торты</button>
+      <button class="tab-btn">Пирожные</button>
+      <button class="tab-btn">Выпечка</button>
+      <button class="tab-btn">Напитки</button>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/main cake.png" alt="Гигантский торт" style="width: 100%; height: 100%; object-fit: contain;">
+          <div class="giant-badge">ГИГАНТ</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Гигантский торт</div>
+          <div class="menu-card-desc">Огромный торт на весь стол - нежные коржи, сливочный крем, украшение на выбор. Хватит на всю компанию.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">85 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/tort.png" alt="Торт классический" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Торт классический</div>
+          <div class="menu-card-desc">Традиционный торт с бисквитом, кремом и фруктами. Идеален для семейного праздника.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">45 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/cakes.png" alt="Гигантское пирожное" style="width: 100%; height: 100%; object-fit: contain;">
+          <div class="giant-badge">ГИГАНТ</div>
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Гигантское пирожное</div>
+          <div class="menu-card-desc">Пирожное в 3 раза больше обычного - воздушное тесто, нежная начинка, много крема сверху.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">12 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/cakes small.png" alt="Пирожное" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Пирожное</div>
+          <div class="menu-card-desc">Классическое маленькое пирожное - разные вкусы каждый день: шоколад, ваниль, клубника.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">5 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/baton.png" alt="Батон" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Батон</div>
+          <div class="menu-card-desc">Свежеиспеченный мягкий батон каждое утро. С маслом - просто объедение.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">3 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/burger.png" alt="Бургер" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Бургер</div>
+          <div class="menu-card-desc">Горячий бургер в свежей булочке собственной выпечки. Сытно и вкусно.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">8 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/sweet.png" alt="Конфеты" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Конфеты</div>
+          <div class="menu-card-desc">Ассорти ручной работы - шоколадные, карамельные, фруктовые.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">4 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">
+          <img src="media/icecream.png" alt="Мороженое" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Мороженое</div>
+          <div class="menu-card-desc">Свежее мороженое - ванильное, шоколадное, клубничное.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">3 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+      <div class="menu-card">
+        <div class="menu-card-img">🥤</div>
+        <div class="menu-card-body">
+          <div class="menu-card-name">Напитки и газировка</div>
+          <div class="menu-card-desc">Соки, воды и газированные напитки - все что нужно к десерту.</div>
+          <div class="menu-card-footer">
+            <div class="menu-card-price">3–4 <span>₾</span></div>
+            <button class="order-btn">Заказать</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALS -->
+<section class="specials-section" id="specials">
+  <div class="section-inner">
+    <div class="section-tag" style="color: var(--accent);">Акции</div>
+    <h2 class="section-title" style="color:white;">Специальные предложения</h2>
+    <p class="section-desc" style="color:rgba(255,255,255,0.6);">Мы любим делать приятное - поэтому у нас всегда есть повод сэкономить.</p>
+    <div class="specials-grid">
+      <div class="special-card">
+        <span class="special-icon">🎂</span>
+        <div class="special-title">Акция 2 + 1</div>
+        <div class="special-desc">Купи два торта - третий получи в подарок. Идеально для большой компании или двух праздников сразу.</div>
+        <span class="special-highlight">На все торты · Постоянно</span>
+      </div>
+      <div class="special-card">
+        <span class="special-icon">☀️</span>
+        <div class="special-title">Воскресная скидка</div>
+        <div class="special-desc">Каждое воскресенье скидка 30% на весь ассортимент. Лучший день для сладкого шоппинга.</div>
+        <span class="special-highlight">−30% · Каждое воскресенье</span>
+      </div>
+      <div class="special-card">
+        <span class="special-icon">🎉</span>
+        <div class="special-title">День рождения</div>
+        <div class="special-desc">В твой день рождения - скидка 50% на все. Просто покажи документ. Праздник должен быть сладким!</div>
+        <span class="special-highlight">−50% · В день рождения</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-inner">
+      <div class="about-image">
+        <span>
+          <img src="media/team.png" alt="Команда Пешки" style="width: 100%; height: 100%; object-fit: contain;">
+        </span>
+        <p>Фото команды</p>
+      </div>
+      <div>
+        <div class="section-tag">О нас</div>
+        <h2 class="section-title">Почему «Пешка»?</h2>
+        <div class="about-story">
+          <p>В тот день, когда мы придумали этот проект, один из нас пришел в свитере с нарисованной шахматной пешкой. Мы посмотрели, посмеялись — и решили: вот оно. Название.</p>
+          <div class="about-quote">
+            <p>«Пешка - маленькая фигура с большими возможностями. Как раз о нас.»</p>
+          </div>
+          <p>Мы — трое школьников из Батуми, которые решили открыть настоящую кондитерскую. Наша фишка - гигантские торты и пирожные, которые удивляют с первого взгляда и с первого укуса.</p>
+        </div>
+        <div class="team-chips">
+          <div class="team-chip">
+            <div class="chip-avatar">Д</div>
+            <div><div class="chip-name">Добрыня</div><div class="chip-role">Директор</div></div>
+          </div>
+          <div class="team-chip">
+            <div class="chip-avatar">М</div>
+            <div><div class="chip-name">Марк</div><div class="chip-role">Продажи</div></div>
+          </div>
+          <div class="team-chip">
+            <div class="chip-avatar">Л</div>
+            <div><div class="chip-name">Леон</div><div class="chip-role">Производство</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER -->
+<section class="order-section" id="order">
+  <div class="section-inner">
+    <div class="order-inner">
+      <div>
+        <div class="section-tag">Как заказать</div>
+        <h2 class="section-title">Три способа получить вкусное</h2>
+        <p class="section-desc">Выбирай удобный способ — доставим быстро и с любовью.</p>
+        <div class="delivery-options">
+          <div class="delivery-card">
+            <div class="delivery-icon">🌐</div>
+            <div>
+              <div class="delivery-name">Через наш сайт</div>
+              <div class="delivery-desc">Заполни форму справа - мы свяжемся и подтвердим заказ</div>
+            </div>
+          </div>
+          <div class="delivery-card">
+            <div class="delivery-icon">🟡</div>
+            <div>
+              <div class="delivery-name">Яндекс Доставка</div>
+              <div class="delivery-desc">Найди нас в приложении Яндекс - быстро и удобно</div>
+            </div>
+          </div>
+          <div class="delivery-card">
+            <div class="delivery-icon">🟢</div>
+            <div>
+              <div class="delivery-name">Glovo</div>
+              <div class="delivery-desc">Заказывай через Glovo - доставим прямо к двери</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-box">
+        <h3>Оставить заказ</h3>
+        <div class="contact-row">
+          <div class="contact-row-icon">📍</div>
+          <div><div class="contact-row-text">Батуми, Пиросмани 18a</div><div class="contact-row-sub">Самовывоз тоже доступен</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">📞</div>
+          <div><div class="contact-row-text">+995 555 555 555
+          </div><div class="contact-row-sub">Пн–Вс: 9:00 – 21:00</div></div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-row-icon">📱</div>
+          <div><div class="contact-row-text">Instagram: @peshka_batumi</div><div class="contact-row-sub">Пишите в директ</div></div>
+        </div>
+        <div style="margin-top: 24px; padding: 20px; background: var(--olive-bg); border-radius: 10px; text-align: center;">
+          <div style="font-size: 13px; color: var(--muted); margin-bottom: 8px;">Хочешь заказать торт?</div>
+          <div style="font-family: 'Playfair Display', serif; font-size: 16px; color: var(--olive-dark); font-weight: 700;">Позвони или напиши — мы ответим быстро 🎂</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">♟️ Пешка</div>
+    <p style="margin-top: 6px;">Кондитерская · Батуми · 2026</p>
+  </div>
+  <div style="text-align: right;">
+    <p>Марк · Добрыня · Леон</p>
+    <p style="margin-top: 4px;">Сделано с любовью 🍰</p>
+  </div>
+</footer>
+
+</body>
+</html>
